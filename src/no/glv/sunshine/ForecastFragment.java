@@ -26,20 +26,12 @@ public class ForecastFragment extends Fragment implements WeatherForecastValues 
 	
 	/**  */
 	private static final String TAG = ForecastFragment.class.getSimpleName();
-	
-	
-	private String owaCityID;
-	private String owaMode;
-	private int owaCount;
-	
-	
+		
 	/**
 	 * 
 	 */
 	public ForecastFragment() {
-		this.owaCityID = OWA_ROA_CITYID;
-		this.owaMode = OWA_MODE_JSON;
-		this.owaCount = 7;
+		this (7);
 	}
 
 	
@@ -48,9 +40,7 @@ public class ForecastFragment extends Fragment implements WeatherForecastValues 
 	 * @param count
 	 */
 	public ForecastFragment(int count) {
-		this.owaCityID = OWA_ROA_CITYID;
-		this.owaMode = OWA_MODE_JSON;
-		this.owaCount = count;
+		this( ROA_CITY_ID, count );
 	}
 
 	/**
@@ -59,9 +49,8 @@ public class ForecastFragment extends Fragment implements WeatherForecastValues 
 	 * @param count
 	 */
 	public ForecastFragment(String id, int count) {
-		this.owaCityID = id;
-		this.owaMode = OWA_MODE_JSON;
-		this.owaCount = count;
+		setCityID( id );
+		setCount( count );
 	}
 	
 	
@@ -70,22 +59,22 @@ public class ForecastFragment extends Fragment implements WeatherForecastValues 
 	 * @param id
 	 */
 	public void setCityID( String id ) {
-		owaCityID = id;
+		WeatherRequest.GetInstance().getWeatherDataBean().setOwaCityID(  id );
 	}
 	
 	
 	public void setCount( int count ) {
-		owaCount = count;
+		WeatherRequest.GetInstance().getWeatherDataBean().setOwaCount( count );
 	}
 	
 	
 	public void setXMLMode() {
-		this.owaMode = OWA_MODE_XML;
+		WeatherRequest.GetInstance().getWeatherDataBean().setOwaMode( OWA_MODE_XML );
 	}
 	
 	
 	public void setJSONMode() {
-		this.owaMode = OWA_MODE_JSON;
+		WeatherRequest.GetInstance().getWeatherDataBean().setOwaMode( OWA_MODE_JSON );
 	}
 
 	/**
@@ -116,8 +105,12 @@ public class ForecastFragment extends Fragment implements WeatherForecastValues 
 		int id = item.getItemId();
 		if ( id == R.id.action_refresh ) {
 			Log.d( TAG, "onOptionsItemSelected: Calling GetWeatherData( )" );
-			WeatherRequest.GetWeatherData( owaCityID, owaMode, owaCount );
-
+			
+			//String cityID = item.getIntent().getStringExtra( EXTRA_CITYID );
+			//if ( cityID != null )
+			//	setCityID( cityID );
+			
+			WeatherRequest.GetWeatherData();
 			return true;
 		}
 
@@ -153,10 +146,33 @@ public class ForecastFragment extends Fragment implements WeatherForecastValues 
 		ListView listView = (ListView) rootView
 				.findViewById( R.id.listview_forecast );
 		listView.setAdapter( forcastAdapter );
-
-		String forecast = WeatherRequest.GetWeatherData( owaCityID, owaMode, owaCount );
-
+		
+		String forecast = getWeatherData( );
+			
 		return rootView;
+	}
+	
+	
+	/**
+	 * 
+	 * @param bundle
+	 * @return
+	 */
+	private String getWeatherData() {
+		String forecast = null;
+		boolean forceRefresh = false;
+
+		Bundle bundle = getActivity().getIntent().getExtras();
+		Log.d( TAG, "getWeatherData():" + bundle );
+		if (bundle != null ) {
+			forceRefresh = bundle.getBoolean( EXTRA_FORCE_REFRESH );
+			Log.d( TAG, "getWeatherData( ): " + forceRefresh);
+		}
+		
+		if ( forceRefresh ) forecast = WeatherRequest.GetWeatherData();
+		
+		
+		return forecast;
 	}
 
 }

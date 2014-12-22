@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,6 +15,11 @@ public class WeatherRequest implements WeatherForecastValues {
 	private static WeatherRequest instance;
 	/**  */
 	private static final String TAG = "WeatherRequest";
+	
+	
+	private WeatherDataBean dataBean;
+	
+	private String url;
 
 	
 	/**
@@ -35,8 +41,8 @@ public class WeatherRequest implements WeatherForecastValues {
 	 * @param url
 	 * @return
 	 */
-	static String GetWeatherData( String id, String mode, int count ) {
-		return GetInstance().getWeatherData( id, mode, count );
+	static String GetWeatherData(  ) {
+		return GetInstance().getWeatherData( );
 	}
 
 	
@@ -46,35 +52,50 @@ public class WeatherRequest implements WeatherForecastValues {
 	public WeatherRequest() {
 
 	}
-
-	public void run() {
-
-	}
-
 	
 	
-	private String createURL(String id, String mode, int count) {
-		String httpAddr = null;
+	WeatherDataBean getWeatherDataBean() {
+		if ( dataBean == null ) 
+			dataBean = new WeatherDataBean();
 		
-		StringBuffer sb = new StringBuffer();
-		sb.append( "http://" ).append( OPEN_WEATHER_API_URL ).
-			append( OWA_CITYID ).append( id ).append( OWA_SEPARATOR ).
-			append( OWA_COUNT ).append( count ).append( OWA_SEPARATOR ). 
-			append( mode );
-		
-		httpAddr = sb.toString();
-		Log.d(TAG, "createURL: " + httpAddr);
-		return httpAddr; 
+		return dataBean;
 	}
+	
+	
+	/**
+	 * 
+	 * @param bean
+	 * @return
+	 */
+	private String createURL(WeatherDataBean bean ) {
+		if ( ! dataBean.hasChanged() )
+			return url;
+		
+		Uri uri = Uri.parse( OPEN_WEATHER_API_URL ).buildUpon(). 
+				appendQueryParameter( OWA_CITYID, bean.getOwaCityID() ). 
+				appendQueryParameter( OWA_COUNT, Integer.toString( bean.getOwaCount() ) ). 
+				appendQueryParameter( OWA_MODE, bean.getOwaMode() ). 
+				build();
+		
+		url = uri.toString();
+		Log.d(TAG, "createURL: " + url);
+		return url; 
+	}
+	
+	
+	public String getWeatherData( ) {
+		return this.getWeatherData( dataBean);
+	}
+
 	
 	/**
 	 * 
 	 * @param httpAddr
 	 * @return
 	 */
-	public String getWeatherData(String id, String mode, int count) {
+	public String getWeatherData( WeatherDataBean bean ) {
 		Log.d( TAG, "Starting WeatherDataTask" );
-		WeatherDataTask daTask = new WeatherDataTask( createURL( id, mode, count ) );
+		WeatherDataTask daTask = new WeatherDataTask( createURL( bean ) );
 		daTask.execute( null, null, null );
 		
 		int iMax = 10;

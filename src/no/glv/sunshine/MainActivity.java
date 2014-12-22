@@ -1,13 +1,15 @@
 package no.glv.sunshine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity implements WeatherForecastValues {
 
-	private static final String TAG = "MainActivity";
+	private static final String TAG = MainActivity.class.getSimpleName();
 
 	/**
 	 * 
@@ -20,6 +22,20 @@ public class MainActivity extends ActionBarActivity implements WeatherForecastVa
 			getSupportFragmentManager().beginTransaction()
 					.add( R.id.container, new ForecastFragment() ).commit();
 		}
+		
+		Bundle bundle = getIntent().getExtras();
+		Log.d( TAG, "onCreate():" + bundle );
+		if (bundle != null ) {
+			boolean forceRefresh = bundle.getBoolean( EXTRA_FORCE_REFRESH );
+			Log.d( TAG, "onCreate( ): " + forceRefresh);
+		}	
+	}
+	
+	
+	@Override
+	protected void onStart() {
+		Log.d( TAG, "ENTER onStart()" );
+		super.onStart();
 	}
 
 	/**
@@ -39,13 +55,11 @@ public class MainActivity extends ActionBarActivity implements WeatherForecastVa
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if ( id == R.id.action_settings ) {
+			Intent intent = new Intent( this, SettingsActicity.class );
+			startActivity( intent );
 			return true;
 		}
 
 		return super.onOptionsItemSelected( item );
 	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
 }
