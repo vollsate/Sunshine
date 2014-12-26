@@ -14,11 +14,12 @@ public class WeatherRequest implements WeatherForecastValues {
 	/**  */
 	private static WeatherRequest instance;
 	/**  */
-	private static final String TAG = "WeatherRequest";
+	private static final String TAG = WeatherRequest.class.getSimpleName();
 	
-	
+	/** */
 	private WeatherDataBean dataBean;
 	
+	/** */
 	private String url;
 
 	
@@ -78,11 +79,15 @@ public class WeatherRequest implements WeatherForecastValues {
 				build();
 		
 		url = uri.toString();
-		Log.d(TAG, "createURL: " + url);
+		Log.d(TAG, "createURL(): " + url);
 		return url; 
 	}
 	
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getWeatherData( ) {
 		return this.getWeatherData( dataBean);
 	}

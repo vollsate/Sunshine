@@ -343,6 +343,7 @@ int id action_bar_spinner 0x7f090002
 int id action_bar_subtitle 0x7f09001f
 int id action_bar_title 0x7f09001e
 int id action_context_bar 0x7f090032
+int id action_exit 0x7f090049
 int id action_menu_divider 0x7f090005
 int id action_menu_presenter 0x7f090006
 int id action_mode_bar 0x7f09002e
@@ -457,14 +458,15 @@ int string abc_searchview_description_voice 0x7f0a000b
 int string abc_shareactionprovider_share_with 0x7f0a000f
 int string abc_shareactionprovider_share_with_application 0x7f0a000e
 int string abc_toolbar_collapse_description 0x7f0a0004
+int string action_exit 0x7f0a0016
 int string action_refresh 0x7f0a0013
 int string action_settings 0x7f0a0012
 int string app_name 0x7f0a0010
-int string button_updatesetting 0x7f0a0016
+int string button_updatesetting 0x7f0a0017
 int string hello_world 0x7f0a0011
 int string textview_cityID 0x7f0a0014
 int string textview_days 0x7f0a0015
-int string title_activity_settings_acticity 0x7f0a0017
+int string title_activity_settings_acticity 0x7f0a0018
 int style AppBaseTheme 0x7f0b00eb
 int style AppTheme 0x7f0b00ec
 int style Base_TextAppearance_AppCompat 0x7f0b0098

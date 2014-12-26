@@ -54,12 +54,19 @@ public class MainActivity extends ActionBarActivity implements WeatherForecastVa
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if ( id == R.id.action_settings ) {
+		
+		switch ( id ) {
+		case R.id.action_settings:
 			Intent intent = new Intent( this, SettingsActicity.class );
 			startActivity( intent );
 			return true;
-		}
+			
+		case R.id.action_exit:
+			finish();
 
-		return super.onOptionsItemSelected( item );
+		default:
+			return super.onOptionsItemSelected( item );
+		}
+		
 	}
 }

@@ -1644,6 +1644,7 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f09001f;
         public static final int action_bar_title=0x7f09001e;
         public static final int action_context_bar=0x7f090032;
+        public static final int action_exit=0x7f090049;
         public static final int action_menu_divider=0x7f090005;
         public static final int action_menu_presenter=0x7f090006;
         public static final int action_mode_bar=0x7f09002e;
@@ -1828,14 +1829,15 @@ containing a value of this type.
         /**  Content description for the Toolbar icon used to collapse an expanded action mode. [CHAR LIMIT=NONE] 
          */
         public static final int abc_toolbar_collapse_description=0x7f0a0004;
+        public static final int action_exit=0x7f0a0016;
         public static final int action_refresh=0x7f0a0013;
         public static final int action_settings=0x7f0a0012;
         public static final int app_name=0x7f0a0010;
-        public static final int button_updatesetting=0x7f0a0016;
+        public static final int button_updatesetting=0x7f0a0017;
         public static final int hello_world=0x7f0a0011;
         public static final int textview_cityID=0x7f0a0014;
         public static final int textview_days=0x7f0a0015;
-        public static final int title_activity_settings_acticity=0x7f0a0017;
+        public static final int title_activity_settings_acticity=0x7f0a0018;
     }
     public static final class style {
         /** 
